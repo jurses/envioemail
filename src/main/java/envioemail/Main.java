@@ -1,6 +1,9 @@
 package envioemail;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -17,10 +20,15 @@ public class Main extends Application {
 	public Main() {
 		mailcontroller = new MailController();
 	}
+	
+	public static void main(String[] args)
+	{
+		launch(args);
+	}
 
 	@Override
 	public void start(Stage s) {
-		s.getIcons().add(new Image(Main.class.getResourceAsStream("icon.png")));
+		s.getIcons().add(new Image(Main.class.getResourceAsStream("/icon.png")));
 		mailcontroller.get_bt_send().setOnAction(event -> {
 			Email email = new SimpleEmail();
 			email.setHostName(mailcontroller.get_url());
@@ -34,11 +42,24 @@ public class Main extends Application {
 				email.addTo(mailcontroller.get_email_dest());
 				email.setSubject(mailcontroller.get_subject());
 				email.send();
+			} catch (NumberFormatException e) {
+				Alert not_sent = new Alert(AlertType.ERROR);
+				not_sent.setTitle("Error");
+				not_sent.setHeaderText("El número del puerto es incorrecto");
+				not_sent.setContentText(e.getMessage());
+				not_sent.showAndWait();
+				e.printStackTrace();
 			} catch (EmailException e) {
-				// TODO Auto-generated catch block
+				Alert not_sent = new Alert(AlertType.ERROR);
+				not_sent.setTitle("Error");
+				not_sent.setHeaderText("El número del puerto es incorrecto");
+				not_sent.setContentText(e.getMessage());
+				not_sent.showAndWait();
 				e.printStackTrace();
 			}
 		});
-		;
+		Scene sc = new Scene(mailcontroller.get_view());
+		s.setScene(sc);
+		s.show();
 	}
 }

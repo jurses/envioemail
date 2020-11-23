@@ -9,9 +9,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 public class MailController
 {
+	@FXML
+    private GridPane root;
+	
     @FXML
     private TextField tf_urlserver;
 
@@ -78,6 +82,11 @@ public class MailController
     public String get_message()
     {
     	return ta_message.getText();
+    }
+    
+    public GridPane get_view()
+    {
+    	return root;
     }
     
     public String get_pass()
